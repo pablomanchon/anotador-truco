@@ -1,0 +1,69 @@
+import { create } from "zustand";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+type State = {
+  a: number;            // fósforos “Nosotros”
+  b: number;            // fósforos “Ellos”
+  goal: number;
+  flor: boolean;
+
+  addStick: (team: "a" | "b", n?: number) => void;
+  removeStick: (team: "a" | "b", n?: number) => void;
+  reset: () => void;
+  setGoal: (g: number) => void;
+  setFlor: (v: boolean) => void;
+  loadFromStorage: () => Promise<void>;
+};
+
+const KEY = "truco@fosforos-state-v1";
+
+export const useMatchStore = create<State>((set, get) => ({
+  a: 0,
+  b: 0,
+  goal: 30,
+  flor: false,
+
+  addStick: (team, n = 1) => {
+    const next = Math.max(0, Math.min(999, get()[team] + n));
+    set({ [team]: next } as any);
+    persist();
+  },
+
+  removeStick: (team, n = 1) => {
+    const next = Math.max(0, get()[team] - n);
+    set({ [team]: next } as any);
+    persist();
+  },
+
+  reset: () => {
+    set({ a: 0, b: 0 });
+    persist();
+  },
+
+  setGoal: (g) => {
+    set({ goal: g });
+    persist();
+  },
+
+  setFlor: (v) => {
+    set({ flor: v });
+    persist();
+  },
+
+  loadFromStorage: async () => {
+    try {
+      const raw = await AsyncStorage.getItem(KEY);
+      if (!raw) return;
+      const data = JSON.parse(raw);
+      set({ ...get(), ...data });
+    } catch {}
+  },
+}));
+
+async function persist() {
+  try {
+    const s = useMatchStore.getState();
+    const payload = { a: s.a, b: s.b, goal: s.goal, flor: s.flor };
+    await AsyncStorage.setItem(KEY, JSON.stringify(payload));
+  } catch {}
+}

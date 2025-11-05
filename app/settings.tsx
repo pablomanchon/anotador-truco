@@ -1,0 +1,73 @@
+import { View, Text, StyleSheet, Pressable } from "react-native";
+import * as Haptics from "expo-haptics";
+import { useRouter } from "expo-router";
+import { useMatchStore } from "@/store/useMatchStore";
+
+export default function Settings() {
+  const r = useRouter();
+  const { goal, setGoal, flor, setFlor } = useMatchStore();
+  return (
+    <View style={ss.container}>
+      <Text style={ss.h1}>Opciones</Text>
+
+      <View style={ss.row}>
+        <Text style={ss.label}>Puntaje objetivo</Text>
+        <View style={{ flexDirection: "row", gap: 8 }}>
+          {[15, 30].map((g) => (
+            <Pressable
+              key={g}
+              style={[ss.pill, goal === g && ss.active]}
+              onPress={() => {
+                setGoal(g);
+                Haptics.selectionAsync();
+              }}
+            >
+              <Text style={ss.pillText}>{g}</Text>
+            </Pressable>
+          ))}
+        </View>
+      </View>
+
+      <View style={ss.row}>
+        <Text style={ss.label}>Flor</Text>
+        <Pressable
+          style={[ss.pill, flor && ss.active]}
+          onPress={() => {
+            setFlor(!flor);
+            Haptics.selectionAsync();
+          }}
+        >
+          <Text style={ss.pillText}>{flor ? "Activada" : "Desactivada"}</Text>
+        </Pressable>
+      </View>
+
+      <Pressable style={[ss.btn]} onPress={() => r.back()}>
+        <Text style={ss.btnText}>Volver</Text>
+      </Pressable>
+    </View>
+  );
+}
+
+const ss = StyleSheet.create({
+  container: { flex: 1, padding: 20, backgroundColor: "#0f172a", gap: 16 },
+  h1: { color: "white", fontSize: 24, fontWeight: "800" },
+  row: { gap: 8 },
+  label: { color: "#93c5fd", fontWeight: "700" },
+  pill: {
+    backgroundColor: "#1f2937",
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    borderRadius: 999,
+    alignSelf: "flex-start",
+  },
+  active: { backgroundColor: "#3b82f6" },
+  pillText: { color: "white", fontWeight: "700" },
+  btn: {
+    marginTop: "auto",
+    backgroundColor: "#334155",
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: "center",
+  },
+  btnText: { color: "white", fontWeight: "700" },
+});
