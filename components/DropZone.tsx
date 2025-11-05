@@ -16,7 +16,7 @@ export const DropZone = forwardRef<View, Props>(function DZ(
   const { height } = useWindowDimensions();
 
   // Altura casi total (dejamos margen de 180 px para botones/fósforo)
-  const dynamicHeight = height - 180;
+  const dynamicHeight = height - 120;
 
   return (
     <View ref={ref} style={[s.zone, { height: dynamicHeight }]}>
