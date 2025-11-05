@@ -5,8 +5,8 @@ import { Image, StyleSheet, View } from "react-native";
 const SRC = require("@/assets/images/fosforo.png");
 
 // Tamaños y caja del cuadrado (ajustá a gusto)
-const BOX = 130;          // tamaño del contenedor
-const MARGIN = 20;        // margen interno
+const BOX = 80;          // tamaño del contenedor
+const MARGIN = 0;        // margen interno
 const SIDE = BOX - MARGIN * 2;
 
 // Tamaño que usaremos para cada fósforo “lado”

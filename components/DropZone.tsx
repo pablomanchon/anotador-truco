@@ -1,6 +1,6 @@
 import React, { forwardRef } from "react";
 import { Pressable, StyleSheet, Text, View, useWindowDimensions } from "react-native";
-import Square from "./Square";
+import SquareColumn from "./SquareColumn";
 
 type Props = {
   label: string;
@@ -24,9 +24,9 @@ export const DropZone = forwardRef<View, Props>(function DZ(
       <Text style={s.zoneScore}>
         {count} / {goal}
       </Text>
-      <Square count={count}/>
-
-      {/* tu grid de tally… */}
+      <View >
+        <SquareColumn count={count} />
+      </View>
 
       <Pressable onLongPress={onLongMinus} style={s.minusHint}>
         <Text style={s.minusText}>Mantener para restar</Text>
@@ -38,12 +38,13 @@ export const DropZone = forwardRef<View, Props>(function DZ(
 const s = StyleSheet.create({
   zone: {
     flex: 1,
-    backgroundColor: "rgba(11,18,32,0.8)",
+    backgroundColor: "rgba(11, 18, 32, 0.69)",
+    elevation:10,
     borderRadius: 16,
     padding: 14,
   },
   zoneLabel: { color: "#93c5fd", fontWeight: "700" },
-  zoneScore: { color: "white", fontSize: 28, fontWeight: "900", marginBottom: 8 },
+  zoneScore: { color: "white", fontSize: 28, fontWeight: "900"},
   minusHint: { opacity: 0.6, marginTop: 6, alignSelf: "flex-start" },
   minusText: { color: "#cbd5e1", fontSize: 12 },
 });
