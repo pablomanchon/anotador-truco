@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 export const s = StyleSheet.create({
   container: { flex: 1, padding: 16, gap: 14, position: 'relative' },
-  title: { color: "white", fontSize: 22, fontWeight: "800", textAlign: "center" },
+  title: { color: "white", fontSize: 22, fontWeight: "800", textAlign: "center",paddingTop:15 },
 
   zones: { flexDirection: "row", gap: 10 },
   zone: { flex: 1, backgroundColor: "#0b1220", borderRadius: 16, padding: 14 },

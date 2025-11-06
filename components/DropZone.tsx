@@ -19,7 +19,8 @@ export const DropZone = forwardRef<View, Props>(function DZ(
   const dynamicHeight = height - 120;
 
   return (
-    <View ref={ref} style={[s.zone, { height: dynamicHeight }]}>
+    <View ref={ref} style={[s.zone, {minHeight:690}]}>
+      <View style={{borderColor:'#fff', width:'120%', borderWidth:1, position:'absolute', top:'50%'}}/>
       <Text style={s.zoneLabel}>{label}</Text>
       <Text style={s.zoneScore}>
         {count} / {goal}
@@ -42,6 +43,7 @@ const s = StyleSheet.create({
     elevation:10,
     borderRadius: 16,
     padding: 14,
+    position:'relative'
   },
   zoneLabel: { color: "#93c5fd", fontWeight: "700" },
   zoneScore: { color: "white", fontSize: 28, fontWeight: "900"},

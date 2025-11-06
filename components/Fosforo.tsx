@@ -40,13 +40,18 @@ const Fosforo = ({ onDrop }: Props) => {
       y.value = withSpring(startY);
     });
 
-  const matchStyle = useAnimatedStyle(() => ({
-    position: "absolute",
-    left: x.value,
-    top: y.value,
-    transform: [{ rotate: "0deg" }], // recto
-    zIndex: 10,                      // arriba de la caja
-  }));
+ const matchStyle = useAnimatedStyle(() => ({
+  position: "absolute",
+  left: x.value,
+  top: y.value,
+  // 🔹 Gira suavemente según cuánto se mueve horizontalmente
+  transform: [
+    { rotate: `${(x.value - startX) / 20}deg` }, // cuanto más arrastre, más gira
+    { translateX: 0 },
+    { translateY: 0 },
+  ],
+}));
+
 
   return (
     <>

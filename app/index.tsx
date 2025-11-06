@@ -50,7 +50,7 @@ export default function Home() {
 
   return (
     <ImageBackground source={bgWood} resizeMode="cover" style={s.container}>
-      <Text style={s.title}>Anotador de Truco (Fósforos)</Text>
+      <Text style={s.title}>Anotador de Truco</Text>
 
       <View style={s.zones} onLayout={measureZones}>
         <DropZone ref={aRef} label="Nosotros" count={a} goal={goal} onLongMinus={() => removeStick("a")} />
