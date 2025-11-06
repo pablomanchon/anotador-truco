@@ -7,17 +7,24 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
+import { View } from "./Themed";
 
-type Props = {
-  onDrop?: (absX: number, absY: number) => boolean;
-};
+type Props = { onDrop?: (absX: number, absY: number) => boolean };
 
 const Fosforo = ({ onDrop }: Props) => {
   const { width, height } = useWindowDimensions();
 
-  // 📍 posición inicial: centrado horizontal y un poco arriba del borde inferior
-  const startX = width / 2 - 20; // ancho del fósforo aprox 40
-  const startY = height - 150; // a unos 150px del fondo
+  // Posición inicial del fósforo (centro-abajo)
+  const startX = width / 2 - 20;  // fósforo ~40 px de ancho
+  const startY = height - 150;
+
+  // Tamaño de la caja (ajustá a tu PNG)
+  const BOX_W = 70;
+  const BOX_H = 110;
+
+  // Posición de la caja: centrada respecto al fósforo y un poco más abajo
+  const boxLeft = startX - (BOX_W - 40) / 2;
+  const boxTop = startY + 8;
 
   const x = useSharedValue(startX);
   const y = useSharedValue(startY);
@@ -33,22 +40,52 @@ const Fosforo = ({ onDrop }: Props) => {
       y.value = withSpring(startY);
     });
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    position: "absolute",
-    left: x.value,
-    top: y.value,
-    transform: [{ rotate: "0deg" }], // 🔹 siempre recto
-  }));
+ const matchStyle = useAnimatedStyle(() => ({
+  position: "absolute",
+  left: x.value,
+  top: y.value,
+  // 🔹 Gira suavemente según cuánto se mueve horizontalmente
+  transform: [
+    { rotate: `${(x.value - startX) / 20}deg` }, // cuanto más arrastre, más gira
+    { translateX: 0 },
+    { translateY: 0 },
+  ],
+}));
+
 
   return (
-    <GestureDetector gesture={gesture}>
-      <Animated.View style={animatedStyle}>
+    <>
+      {/* Caja fija detrás del fósforo */}
+      <View
+        pointerEvents="none"
+        style={{
+          position: "absolute",
+          left: boxLeft,
+          top: boxTop,
+          backgroundColor:"rgb(0,0,0,0)",
+          zIndex: 0,
+        }}
+      >
         <Image
-          source={require("@/assets/images/fosforo.png")}
-          style={{ width: 40, height: 100, resizeMode: "contain" }}
+          source={require("@/assets/images/caja-fosforos.png")}
+          style={{
+            width: BOX_W,
+            height: BOX_H,
+            resizeMode: "contain",
+          }}
         />
-      </Animated.View>
-    </GestureDetector>
+      </View>
+
+      {/* Fósforo draggable por encima */}
+      <GestureDetector gesture={gesture}>
+        <Animated.View style={matchStyle}>
+          <Image
+            source={require("@/assets/images/fosforo.png")}
+            style={{ width: 40, height: 100, resizeMode: "contain" }}
+          />
+        </Animated.View>
+      </GestureDetector>
+    </>
   );
 };
 
