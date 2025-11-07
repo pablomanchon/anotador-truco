@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import { Pressable, StyleSheet, Text, View, useWindowDimensions } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import SquareColumn from "./SquareColumn";
 
 type Props = {
@@ -13,19 +13,15 @@ export const DropZone = forwardRef<View, Props>(function DZ(
   { label, count, goal, onLongMinus },
   ref
 ) {
-  const { height } = useWindowDimensions();
-
-  // Altura casi total (dejamos margen de 180 px para botones/fósforo)
-  const dynamicHeight = height - 120;
 
   return (
-    <View ref={ref} style={[s.zone, {minHeight:690}]}>
-      <View style={{borderColor:'#fff', width:'120%', borderWidth:1, position:'absolute', top:'50%'}}/>
+    <View ref={ref} style={[s.zone]}>
       <Text style={s.zoneLabel}>{label}</Text>
       <Text style={s.zoneScore}>
         {count} / {goal}
       </Text>
-      <View >
+      <View style={{ flex: 1, position:'relative'}}>
+        <View style={{position:"absolute",width:'100%',backgroundColor:'white',height:3,borderRadius:10,top:'50%'}}/>
         <SquareColumn count={count} />
       </View>
 
@@ -40,13 +36,12 @@ const s = StyleSheet.create({
   zone: {
     flex: 1,
     backgroundColor: "rgba(11, 18, 32, 0.69)",
-    elevation:10,
+    elevation: 10,
     borderRadius: 16,
     padding: 14,
-    position:'relative'
   },
   zoneLabel: { color: "#93c5fd", fontWeight: "700" },
-  zoneScore: { color: "white", fontSize: 28, fontWeight: "900"},
+  zoneScore: { color: "white", fontSize: 28, fontWeight: "900" },
   minusHint: { opacity: 0.6, marginTop: 6, alignSelf: "flex-start" },
   minusText: { color: "#cbd5e1", fontSize: 12 },
 });

@@ -2,9 +2,9 @@ import { StyleSheet } from "react-native";
 
 export const s = StyleSheet.create({
   container: { flex: 1, padding: 16, gap: 14, position: 'relative' },
-  title: { color: "white", fontSize: 22, fontWeight: "800", textAlign: "center",paddingTop:15 },
+  title: { color: "white", fontSize: 22, fontWeight: "800", textAlign: "center", paddingTop: 15 },
 
-  zones: { flexDirection: "row", gap: 10 },
+  zones: { flexDirection: "row", gap: 10, flex: 1 },
   zone: { flex: 1, backgroundColor: "#0b1220", borderRadius: 16, padding: 14 },
   zoneLabel: { color: "#93c5fd", fontWeight: "700" },
   zoneScore: { color: "white", fontSize: 28, fontWeight: "900", marginBottom: 8 },
