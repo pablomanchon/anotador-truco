@@ -43,8 +43,6 @@ export const s = StyleSheet.create({
   bottom: { marginTop: "auto", flexDirection: "row", gap: 8 },
   btn: { flex: 1, paddingVertical: 14, borderRadius: 12, alignItems: "center" },
   btnText: { color: "white", fontWeight: "700" },
-  primary: { backgroundColor: "#3b82f6" },
-  danger: { backgroundColor: "#ef4444" },
   square: {
     position: 'relative',
     padding: 20,

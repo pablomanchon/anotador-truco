@@ -1,3 +1,4 @@
+import * as Haptics from "expo-haptics";
 import React, { forwardRef } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import SquareColumn from "./SquareColumn";
@@ -6,29 +7,43 @@ type Props = {
   label: string;
   count: number;
   goal: number;
-  onLongMinus: () => void;
+  onMinus: () => void; // 👈 Nuevo para tocar
 };
 
 export const DropZone = forwardRef<View, Props>(function DZ(
-  { label, count, goal, onLongMinus },
+  { label, count, goal, onMinus },
   ref
 ) {
-
   return (
-    <View ref={ref} style={[s.zone]}>
+    <Pressable
+      ref={ref}
+      style={s.zone}
+      onPress={() => { Haptics.selectionAsync(); onMinus(); }}
+
+    >
       <Text style={s.zoneLabel}>{label}</Text>
       <Text style={s.zoneScore}>
         {count} / {goal}
       </Text>
-      <View style={{ flex: 1, position:'relative'}}>
-        <View style={{position:"absolute",width:'100%',backgroundColor:'white',height:3,borderRadius:10,top:'50%'}}/>
+
+      <View style={{ flex: 1, position: "relative" }}>
+        <View
+          style={{
+            position: "absolute",
+            width: "100%",
+            backgroundColor: "white",
+            height: 3,
+            borderRadius: 10,
+            top: "50%",
+          }}
+        />
         <SquareColumn count={count} />
       </View>
 
-      <Pressable onLongPress={onLongMinus} style={s.minusHint}>
-        <Text style={s.minusText}>Mantener para restar</Text>
-      </Pressable>
-    </View>
+      <View style={s.minusHint}>
+        <Text style={s.minusText}>Tocá para restar</Text>
+      </View>
+    </Pressable>
   );
 });
 
@@ -42,6 +57,6 @@ const s = StyleSheet.create({
   },
   zoneLabel: { color: "#93c5fd", fontWeight: "700" },
   zoneScore: { color: "white", fontSize: 28, fontWeight: "900" },
-  minusHint: { opacity: 0.6, marginTop: 6, alignSelf: "flex-start" },
-  minusText: { color: "#cbd5e1", fontSize: 12 },
+  minusHint: { opacity: 0.6, marginTop: 6, alignSelf: "center" },
+  minusText: { color: "#cbd5e1", fontSize: 12, }
 });

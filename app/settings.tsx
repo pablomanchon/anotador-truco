@@ -1,11 +1,11 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { useMatchStore } from "@/store/useMatchStore";
 import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
-import { useMatchStore } from "@/store/useMatchStore";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function Settings() {
   const r = useRouter();
-  const { goal, setGoal, flor, setFlor } = useMatchStore();
+  const { goal, setGoal } = useMatchStore();
   return (
     <View style={ss.container}>
       <Text style={ss.h1}>Opciones</Text>
@@ -26,19 +26,6 @@ export default function Settings() {
             </Pressable>
           ))}
         </View>
-      </View>
-
-      <View style={ss.row}>
-        <Text style={ss.label}>Flor</Text>
-        <Pressable
-          style={[ss.pill, flor && ss.active]}
-          onPress={() => {
-            setFlor(!flor);
-            Haptics.selectionAsync();
-          }}
-        >
-          <Text style={ss.pillText}>{flor ? "Activada" : "Desactivada"}</Text>
-        </Pressable>
       </View>
 
       <Pressable style={[ss.btn]} onPress={() => r.back()}>

@@ -1,5 +1,5 @@
-import { create } from "zustand";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { create } from "zustand";
 
 type State = {
   a: number;            // fósforos “Nosotros”
@@ -11,7 +11,6 @@ type State = {
   removeStick: (team: "a" | "b", n?: number) => void;
   reset: () => void;
   setGoal: (g: number) => void;
-  setFlor: (v: boolean) => void;
   loadFromStorage: () => Promise<void>;
 };
 
@@ -25,7 +24,8 @@ export const useMatchStore = create<State>((set, get) => ({
 
   addStick: (team, n = 1) => {
     const next = Math.max(0, Math.min(999, get()[team] + n));
-    set({ [team]: next } as any);
+    if (next !== get().goal + 1)
+      set({ [team]: next } as any);
     persist();
   },
 
@@ -45,18 +45,13 @@ export const useMatchStore = create<State>((set, get) => ({
     persist();
   },
 
-  setFlor: (v) => {
-    set({ flor: v });
-    persist();
-  },
-
   loadFromStorage: async () => {
     try {
       const raw = await AsyncStorage.getItem(KEY);
       if (!raw) return;
       const data = JSON.parse(raw);
       set({ ...get(), ...data });
-    } catch {}
+    } catch { }
   },
 }));
 
@@ -65,5 +60,5 @@ async function persist() {
     const s = useMatchStore.getState();
     const payload = { a: s.a, b: s.b, goal: s.goal, flor: s.flor };
     await AsyncStorage.setItem(KEY, JSON.stringify(payload));
-  } catch {}
+  } catch { }
 }
