@@ -8,9 +8,9 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
 
-    "icon": "./assets/logo.webp",   // ícono 512x512 SIN fondo transparente
+    "icon": "./assets/logo.jpg",   // ícono 512x512 SIN fondo transparente
     "splash": {
-      "image": "./assets/logo.webp",  // splash independiente (grande, centrado)
+      "image": "./assets/logo.jpg",  // splash independiente (grande, centrado)
       "resizeMode": "contain",
       "backgroundColor": "#0f172a"
     },
@@ -22,7 +22,7 @@
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/logo.webp",
+        "foregroundImage": "./assets/logo.jpg",
         "backgroundColor": "#0f172a"
       }
     },
@@ -32,7 +32,7 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/logo.webp"
+      "favicon": "./assets/logo.jpg"
     },
 
     "plugins": ["expo-router"],
