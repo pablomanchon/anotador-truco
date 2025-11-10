@@ -2,7 +2,7 @@
 import React from "react";
 import { Image, StyleSheet, View, useWindowDimensions } from "react-native";
 
-import SRC from "@/assets/images/fosforo.png";
+import SRC from "@/assets/images/fosforo.webp";
 
 export default function Square({ count }: { count: number }) {
   const n = Math.min(Math.max(count, 0), 5);

@@ -16,7 +16,7 @@ type Props = { onDrop?: (absX: number, absY: number) => boolean };
 const MATCH_W = 40;
 const MATCH_H = 100;
 
-// Medidas de la caja (ajustá a tu PNG)
+// Medidas de la caja (ajustá a tu webp)
 const BOX_W = 70;
 const BOX_H = 110;
 
@@ -89,7 +89,7 @@ export default function Fosforo({ onDrop }: Props) {
         }}
       >
         <Image
-          source={require("@/assets/images/caja-fosforos.png")}
+          source={require("@/assets/images/caja-fosforos.webp")}
           style={{ width: BOX_W, height: BOX_H, resizeMode: "contain" }}
         />
       </View>
@@ -98,7 +98,7 @@ export default function Fosforo({ onDrop }: Props) {
       <GestureDetector gesture={gesture}>
         <Animated.View style={matchStyle}>
           <Image
-            source={require("@/assets/images/fosforo.png")}
+            source={require("@/assets/images/fosforo.webp")}
             style={{ width: MATCH_W, height: MATCH_H, resizeMode: "contain" }}
           />
         </Animated.View>

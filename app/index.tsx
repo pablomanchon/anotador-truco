@@ -1,4 +1,4 @@
-import bgWood from "@/assets/woodV.png";
+import bgWood from "@/assets/woodV.webp";
 import { DropZone } from "@/components/DropZone";
 import Fosforo from "@/components/Fosforo";
 import { useMatchStore } from "@/store/useMatchStore";
