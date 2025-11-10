@@ -8,7 +8,7 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
 
-    "icon": "./assets/logo.jpg",   // ícono 512x512 SIN fondo transparente
+    "icon": "./assets/icon.jpg",   // ícono 512x512 SIN fondo transparente
     "splash": {
       "image": "./assets/logo.jpg",  // splash independiente (grande, centrado)
       "resizeMode": "contain",
