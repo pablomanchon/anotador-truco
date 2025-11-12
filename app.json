@@ -2,23 +2,21 @@
   "expo": {
     "name": "Anotador de Truco",
     "slug": "truco-anotador",
-    "version": "1.0.0",                // versionName visible
+    "version": "1.0.0",
     "orientation": "portrait",
     "scheme": "trucoanotador",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-
-    "icon": "./assets/icon.jpg",   // ícono 512x512 SIN fondo transparente
+    "icon": "./assets/icon.jpg",
     "splash": {
-      "image": "./assets/logo.jpg",  // splash independiente (grande, centrado)
+      "image": "./assets/logo.jpg",
       "resizeMode": "contain",
       "backgroundColor": "#0f172a"
     },
-
     "android": {
       "package": "com.pablomanchon97.trucoanotador",
-      "versionCode": 1,                // <— IMPORTANTE
-      "permissions": [],               // deja vacío si no usás nada especial
+      "versionCode": 1,
+      "permissions": [],
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "adaptiveIcon": {
@@ -26,20 +24,27 @@
         "backgroundColor": "#0f172a"
       }
     },
-
-    "ios": { "supportsTablet": true },
-
+    "ios": {
+      "supportsTablet": true
+    },
     "web": {
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/logo.jpg"
     },
-
-    "plugins": ["expo-router"],
-    "experiments": { "typedRoutes": true },
+    "plugins": [
+      "expo-router",
+      "expo-audio",
+      "expo-asset"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
     "extra": {
       "router": {},
-      "eas": { "projectId": "e0ac6964-fa29-4233-b76e-2c9aee9aa359" }
+      "eas": {
+        "projectId": "e0ac6964-fa29-4233-b76e-2c9aee9aa359"
+      }
     }
   }
 }
