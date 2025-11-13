@@ -40,7 +40,7 @@ export const s = StyleSheet.create({
   dragWrap: { position: "absolute", left: 12, top: 16 }, // posición inicial del drag
   dragStick: { width: 8, height: 34, backgroundColor: "#f59e0b", borderRadius: 2 },
 
-  bottom: { marginTop: "auto", flexDirection: "row", gap: 8 },
+  bottom: { marginTop: "auto", flexDirection: "row", gap: 8,zIndex:0 },
   btn: { flex: 1, paddingVertical: 14, borderRadius: 12, alignItems: "center" },
   btnText: { color: "white", fontWeight: "700" },
   square: {
