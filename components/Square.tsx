@@ -1,15 +1,18 @@
 // components/Square.tsx
 import React from "react";
-import { Image, StyleSheet, View, useWindowDimensions } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 
 import SRC from "@/assets/images/fosforo.webp";
 
-export default function Square({ count }: { count: number }) {
-  const n = Math.min(Math.max(count, 0), 5);
-  const { width } = useWindowDimensions();
+type Props = {
+  count: number;
+  boxSize: number; // 🔹 ahora viene de arriba
+};
 
-  // 🔹 cuadrado proporcional al ancho de pantalla
-  const BOX = width * 0.25;
+export default function Square({ count, boxSize }: Props) {
+  const n = Math.min(Math.max(count, 0), 5);
+
+  const BOX = boxSize;
   const MARGIN = BOX * 0.02;
   const SIDE = BOX - MARGIN * 2;
 
@@ -17,7 +20,7 @@ export default function Square({ count }: { count: number }) {
   const MATCH_THICK = BOX * 0.35;
 
   return (
-    <View style={[styles.box, { width: BOX, height: BOX, }]}>
+    <View style={[styles.box, { width: BOX, height: BOX }]}>
       {/* LADO IZQUIERDO */}
       {n >= 1 && (
         <Image
