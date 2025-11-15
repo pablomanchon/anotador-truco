@@ -89,6 +89,10 @@ export default function Home() {
             removeStick("a");
             if (ready) playRemove();
           }}
+          onDrop={() => {
+            addStick("a")
+            playAdd();
+          }}
         />
 
         <DropZone
@@ -99,6 +103,10 @@ export default function Home() {
           onMinus={() => {
             removeStick("b");
             if (ready) playRemove();
+          }}
+          onDrop={() => {
+            addStick("b")
+            playAdd()
           }}
         />
       </View>

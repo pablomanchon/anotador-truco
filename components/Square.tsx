@@ -1,15 +1,16 @@
 // components/Square.tsx
 import React from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { GestureResponderEvent, Image, Pressable, StyleSheet, View } from "react-native";
 
 import SRC from "@/assets/images/fosforo.webp";
 
 type Props = {
   count: number;
-  boxSize: number; // 🔹 ahora viene de arriba
+  boxSize: number;
+  onMinus: () => void;
 };
 
-export default function Square({ count, boxSize }: Props) {
+export default function Square({ count, boxSize, onMinus }: Props) {
   const n = Math.min(Math.max(count, 0), 5);
 
   const BOX = boxSize;
@@ -19,14 +20,19 @@ export default function Square({ count, boxSize }: Props) {
   const MATCH_LONG = SIDE;
   const MATCH_THICK = BOX * 0.35;
 
+  const handlePressMatch = (e: GestureResponderEvent) => {
+    e.stopPropagation();
+    onMinus();
+  };
+
   return (
     <View style={[styles.box, { width: BOX, height: BOX }]}>
       {/* LADO IZQUIERDO */}
       {n >= 1 && (
-        <Image
-          source={SRC}
+        <Pressable
+          onPress={handlePressMatch}
           style={[
-            styles.match,
+            styles.matchWrapper,
             {
               width: MATCH_THICK,
               height: MATCH_LONG,
@@ -34,15 +40,18 @@ export default function Square({ count, boxSize }: Props) {
               top: MARGIN,
             },
           ]}
-        />
+          hitSlop={8}
+        >
+          <Image source={SRC} style={styles.matchImage} />
+        </Pressable>
       )}
 
       {/* LADO SUPERIOR */}
       {n >= 2 && (
-        <Image
-          source={SRC}
+        <Pressable
+          onPress={handlePressMatch}
           style={[
-            styles.match,
+            styles.matchWrapper,
             {
               width: MATCH_LONG,
               height: MATCH_THICK + BOX * 0.2,
@@ -51,15 +60,18 @@ export default function Square({ count, boxSize }: Props) {
               transform: [{ rotate: "90deg" }],
             },
           ]}
-        />
+          hitSlop={8}
+        >
+          <Image source={SRC} style={styles.matchImage} />
+        </Pressable>
       )}
 
       {/* LADO DERECHO */}
       {n >= 3 && (
-        <Image
-          source={SRC}
+        <Pressable
+          onPress={handlePressMatch}
           style={[
-            styles.match,
+            styles.matchWrapper,
             {
               width: MATCH_THICK,
               height: MATCH_LONG,
@@ -68,15 +80,18 @@ export default function Square({ count, boxSize }: Props) {
               transform: [{ rotate: "180deg" }],
             },
           ]}
-        />
+          hitSlop={8}
+        >
+          <Image source={SRC} style={styles.matchImage} />
+        </Pressable>
       )}
 
       {/* LADO INFERIOR */}
       {n >= 4 && (
-        <Image
-          source={SRC}
+        <Pressable
+          onPress={handlePressMatch}
           style={[
-            styles.match,
+            styles.matchWrapper,
             {
               width: MATCH_LONG,
               height: MATCH_THICK + BOX * 0.2,
@@ -85,15 +100,18 @@ export default function Square({ count, boxSize }: Props) {
               transform: [{ rotate: "270deg" }],
             },
           ]}
-        />
+          hitSlop={8}
+        >
+          <Image source={SRC} style={styles.matchImage} />
+        </Pressable>
       )}
 
       {/* DIAGONAL */}
       {n >= 5 && (
-        <Image
-          source={SRC}
+        <Pressable
+          onPress={handlePressMatch}
           style={[
-            styles.match,
+            styles.matchWrapper,
             {
               width: MATCH_LONG,
               height: MATCH_THICK + BOX * 0.2,
@@ -102,7 +120,10 @@ export default function Square({ count, boxSize }: Props) {
               transform: [{ rotate: "225deg" }],
             },
           ]}
-        />
+          hitSlop={8}
+        >
+          <Image source={SRC} style={styles.matchImage} />
+        </Pressable>
       )}
     </View>
   );
@@ -113,8 +134,12 @@ const styles = StyleSheet.create({
     position: "relative",
     alignSelf: "center",
   },
-  match: {
+  matchWrapper: {
     position: "absolute",
+  },
+  matchImage: {
+    width: "100%",
+    height: "100%",
     resizeMode: "contain",
   },
 });

@@ -1,42 +1,42 @@
 // DropZone.tsx
 import * as Haptics from "expo-haptics";
 import React, { forwardRef, useState } from "react";
-import { LayoutChangeEvent, StyleSheet, Text, View } from "react-native";
-import { Gesture, GestureDetector } from "react-native-gesture-handler";
-import Animated, { runOnJS } from "react-native-reanimated";
+import {
+  LayoutChangeEvent,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import Animated from "react-native-reanimated";
 import SquareColumn from "./SquareColumn";
 
 type Props = {
   label: string;
   count: number;
   goal: number;
-  onMinus: () => void;
+  onMinus: () => void; // tocar fósforo → resta
+  onDrop: () => void;  // tocar zona → suma
 };
 
 export const DropZone = forwardRef<View, Props>(function DZ(
-  { label, count, goal, onMinus },
+  { label, count, goal, onMinus, onDrop },
   ref
 ) {
   const [centerHeight, setCenterHeight] = useState(0);
 
-  const tap = Gesture.Tap()
-    .maxDuration(300)
-    .maxDelay(100)
-    .maxDistance(15)
-    .onEnd((_e, success) => {
-      "worklet";
-      if (success) {
-        runOnJS(Haptics.selectionAsync)();
-        runOnJS(onMinus)();
-      }
-    });
+  // 👉 SUMAR
+  const handlePlus = () => {
+    Haptics.selectionAsync();
+    onDrop();
+  };
 
   const handleCenterLayout = (e: LayoutChangeEvent) => {
     setCenterHeight(e.nativeEvent.layout.height);
   };
 
   return (
-    <GestureDetector gesture={tap}>
+    <Pressable onPress={handlePlus}>
       <Animated.View ref={ref} style={s.zone}>
         <Text style={s.zoneLabel}>{label}</Text>
         <Text style={s.zoneScore}>
@@ -44,7 +44,7 @@ export const DropZone = forwardRef<View, Props>(function DZ(
         </Text>
 
         <View
-          style={{ flex: 1, position: "relative"}}
+          style={{ flex: 1, position: "relative" }}
           onLayout={handleCenterLayout}
         >
           <View
@@ -57,15 +57,20 @@ export const DropZone = forwardRef<View, Props>(function DZ(
               top: "50%",
             }}
           />
-          {/* 👉 ahora le pasamos el alto disponible */}
-          <SquareColumn count={count} maxHeight={centerHeight} />
+
+          {/* 👉 Todos los fósforos RESTAN */}
+          <SquareColumn
+            count={count}
+            maxHeight={centerHeight}
+            onMinus={onMinus}
+          />
         </View>
 
         <View style={s.minusHint}>
-          <Text style={s.minusText}>Tocá para restar</Text>
+          <Text style={s.minusText}>Tocá para restar un fósforo</Text>
         </View>
       </Animated.View>
-    </GestureDetector>
+    </Pressable>
   );
 });
 
