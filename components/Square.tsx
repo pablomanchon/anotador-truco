@@ -1,6 +1,6 @@
 // components/Square.tsx
 import React from "react";
-import { GestureResponderEvent, Image, Pressable, StyleSheet, View } from "react-native";
+import { Image, Pressable, StyleSheet, View } from "react-native";
 
 import SRC from "@/assets/images/fosforo.webp";
 
@@ -20,17 +20,14 @@ export default function Square({ count, boxSize, onMinus }: Props) {
   const MATCH_LONG = SIDE;
   const MATCH_THICK = BOX * 0.35;
 
-  const handlePressMatch = (e: GestureResponderEvent) => {
-    e.stopPropagation();
-    onMinus();
-  };
-
   return (
-    <View style={[styles.box, { width: BOX, height: BOX }]}>
+    <Pressable
+      onPress={onMinus}
+      style={[styles.box, { width: BOX, height: BOX }]}
+    >
       {/* LADO IZQUIERDO */}
       {n >= 1 && (
-        <Pressable
-          onPress={handlePressMatch}
+        <View
           style={[
             styles.matchWrapper,
             {
@@ -40,16 +37,14 @@ export default function Square({ count, boxSize, onMinus }: Props) {
               top: MARGIN,
             },
           ]}
-          hitSlop={8}
         >
           <Image source={SRC} style={styles.matchImage} />
-        </Pressable>
+        </View>
       )}
 
       {/* LADO SUPERIOR */}
       {n >= 2 && (
-        <Pressable
-          onPress={handlePressMatch}
+        <View
           style={[
             styles.matchWrapper,
             {
@@ -60,16 +55,14 @@ export default function Square({ count, boxSize, onMinus }: Props) {
               transform: [{ rotate: "90deg" }],
             },
           ]}
-          hitSlop={8}
         >
           <Image source={SRC} style={styles.matchImage} />
-        </Pressable>
+        </View>
       )}
 
       {/* LADO DERECHO */}
       {n >= 3 && (
-        <Pressable
-          onPress={handlePressMatch}
+        <View
           style={[
             styles.matchWrapper,
             {
@@ -80,16 +73,14 @@ export default function Square({ count, boxSize, onMinus }: Props) {
               transform: [{ rotate: "180deg" }],
             },
           ]}
-          hitSlop={8}
         >
           <Image source={SRC} style={styles.matchImage} />
-        </Pressable>
+        </View>
       )}
 
       {/* LADO INFERIOR */}
       {n >= 4 && (
-        <Pressable
-          onPress={handlePressMatch}
+        <View
           style={[
             styles.matchWrapper,
             {
@@ -100,16 +91,14 @@ export default function Square({ count, boxSize, onMinus }: Props) {
               transform: [{ rotate: "270deg" }],
             },
           ]}
-          hitSlop={8}
         >
           <Image source={SRC} style={styles.matchImage} />
-        </Pressable>
+        </View>
       )}
 
       {/* DIAGONAL */}
       {n >= 5 && (
-        <Pressable
-          onPress={handlePressMatch}
+        <View
           style={[
             styles.matchWrapper,
             {
@@ -120,12 +109,11 @@ export default function Square({ count, boxSize, onMinus }: Props) {
               transform: [{ rotate: "225deg" }],
             },
           ]}
-          hitSlop={8}
         >
           <Image source={SRC} style={styles.matchImage} />
-        </Pressable>
+        </View>
       )}
-    </View>
+    </Pressable>
   );
 }
 
