@@ -17,10 +17,11 @@ type Props = {
   goal: number;
   onMinus: () => void; // tocar fósforo → resta
   onDrop: () => void;  // tocar zona → suma
+  tapToAdd: boolean;
 };
 
 export const DropZone = forwardRef<View, Props>(function DZ(
-  { label, count, goal, onMinus, onDrop },
+  { label, count, goal, onMinus, onDrop, tapToAdd },
   ref
 ) {
   const [centerHeight, setCenterHeight] = useState(0);
@@ -36,7 +37,7 @@ export const DropZone = forwardRef<View, Props>(function DZ(
   };
 
   return (
-    <Pressable onPress={handlePlus}>
+    <Pressable style={{ flex: 1 }} onPress={tapToAdd ? handlePlus : onMinus}>
       <Animated.View ref={ref} style={s.zone}>
         <Text style={s.zoneLabel}>{label}</Text>
         <Text style={s.zoneScore}>
@@ -67,7 +68,7 @@ export const DropZone = forwardRef<View, Props>(function DZ(
         </View>
 
         <View style={s.minusHint}>
-          <Text style={s.minusText}>Tocá para restar un fósforo</Text>
+          <Text style={s.minusText}>{tapToAdd ? "Tocá los fosforos para restar" : "Toca para restar"}</Text>
         </View>
       </Animated.View>
     </Pressable>
@@ -85,5 +86,5 @@ const s = StyleSheet.create({
   zoneLabel: { color: "#93c5fd", fontWeight: "700" },
   zoneScore: { color: "white", fontSize: 28, fontWeight: "900" },
   minusHint: { opacity: 0.6, marginTop: 6, alignSelf: "center" },
-  minusText: { color: "#cbd5e1", fontSize: 12 },
+  minusText: { color: "#cbd5e1", fontSize: 12, textAlign: "center" },
 });

@@ -5,11 +5,13 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function Settings() {
   const r = useRouter();
-  const { goal, setGoal } = useMatchStore();
+  const { goal, setGoal, tapToAdd, setTapToAdd } = useMatchStore();
+
   return (
     <View style={ss.container}>
       <Text style={ss.h1}>Opciones</Text>
 
+      {/* PUNTAJE OBJETIVO */}
       <View style={ss.row}>
         <Text style={ss.label}>Puntaje objetivo</Text>
         <View style={{ flexDirection: "row", gap: 8 }}>
@@ -23,6 +25,28 @@ export default function Settings() {
               }}
             >
               <Text style={ss.pillText}>{g}</Text>
+            </Pressable>
+          ))}
+        </View>
+      </View>
+
+      {/* PULSA PARA SUMAR */}
+      <View style={ss.row}>
+        <Text style={ss.label}>Pulsa para sumar</Text>
+        <View style={{ flexDirection: "row", gap: 8 }}>
+          {[
+            { label: "Si", value: true },
+            { label: "No", value: false },
+          ].map((opt) => (
+            <Pressable
+              key={opt.label}
+              style={[ss.pill, tapToAdd === opt.value && ss.active]}
+              onPress={() => {
+                setTapToAdd(opt.value);
+                Haptics.selectionAsync();
+              }}
+            >
+              <Text style={ss.pillText}>{opt.label}</Text>
             </Pressable>
           ))}
         </View>

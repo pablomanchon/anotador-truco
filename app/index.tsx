@@ -15,7 +15,7 @@ type Rect = { x: number; y: number; width: number; height: number };
 
 export default function Home() {
   const r = useRouter();
-  const { a, b, goal, addStick, removeStick, reset, loadFromStorage } = useMatchStore();
+  const { a, b, goal, addStick, removeStick, reset, loadFromStorage, tapToAdd } = useMatchStore();
 
   const { ready, playAdd, playRemove } = useSfx({ volume: 0.85 });
 
@@ -93,6 +93,7 @@ export default function Home() {
             addStick("a")
             playAdd();
           }}
+          tapToAdd={tapToAdd}
         />
 
         <DropZone
@@ -108,6 +109,7 @@ export default function Home() {
             addStick("b")
             playAdd()
           }}
+          tapToAdd={tapToAdd}
         />
       </View>
 
