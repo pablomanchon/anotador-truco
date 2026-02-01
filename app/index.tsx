@@ -1,12 +1,12 @@
+import bgWood from "@/assets/woodV.webp";
+import { DropZone } from "@/components/DropZone";
+import Fosforo from "@/components/Fosforo";
+import { useMatchStore } from "@/store/useMatchStore";
+import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
 import React, { useEffect, useRef } from "react";
 import { Alert, ImageBackground, Pressable, Text, View } from "react-native";
-
-import bgWood from "@/assets/woodV.png";
-import { DropZone } from "@/components/DropZone";
-import Fosforo from "@/components/Fosforo";
-import { useMatchStore } from "@/store/useMatchStore";
 import { s } from "../styles/styles";
 
 type Rect = { x: number; y: number; width: number; height: number };
@@ -20,8 +20,27 @@ export default function Home() {
   useEffect(() => {
     if (a >= goal || b >= goal) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      const ganador = a >= goal ? "Nosotros" : "Ellos";
-      Alert.alert("¡Partida!", `${ganador} ganan ${Math.max(a, b)} a ${Math.min(a, b)}.`);
+      const mensaje = a >= goal ? "¡Nosotros ganamos!" : "¡Ellos Ganan!";
+      Alert.alert(
+        "¡Partida!",
+        `${mensaje} ${Math.max(a, b)} a ${Math.min(a, b)}.`,
+        [
+          {
+            text: "OK",
+            onPress: () => {
+              // 🔹 Segundo alerta: confirmar reinicio
+              Alert.alert(
+                "¿Desea iniciar una nueva partida?",
+                "",
+                [
+                  { text: "Cancelar", style: "cancel" },
+                  { text: "Sí", style: "destructive", onPress: () => reset() },
+                ]
+              );
+            },
+          },
+        ]
+      );
     }
   }, [a, b, goal]);
 
@@ -53,19 +72,32 @@ export default function Home() {
       <Text style={s.title}>Anotador de Truco</Text>
 
       <View style={s.zones} onLayout={measureZones}>
-        <DropZone ref={aRef} label="Nosotros" count={a} goal={goal} onLongMinus={() => removeStick("a")} />
-        <DropZone ref={bRef} label="Ellos" count={b} goal={goal} onLongMinus={() => removeStick("b")} />
+        <DropZone
+          ref={aRef}
+          label="Nosotros"
+          count={a}
+          goal={goal}
+          onMinus={() => removeStick("a")}
+        />
+
+        <DropZone
+          ref={bRef}
+          label="Ellos"
+          count={b}
+          goal={goal}
+          onMinus={() => removeStick("b")}
+        />
       </View>
 
       {/* Fósforo suelto de prueba */}
       <Fosforo onDrop={handleDrop} />
 
       <View style={s.bottom}>
-        <Pressable style={[s.btn, s.danger]} onPress={() => confirmReset(reset)}>
-          <Text style={s.btnText}>Reiniciar</Text>
+        <Pressable style={({ pressed }) => [s.btn, { backgroundColor: pressed ? '#00000047' : '#00000099' }]} onPress={() => confirmReset(reset)}>
+          <Ionicons name="refresh-outline" size={28} color="white" />
         </Pressable>
-        <Pressable style={[s.btn, s.primary]} onPress={() => r.push("/settings")}>
-          <Text style={s.btnText}>Opciones</Text>
+        <Pressable style={({ pressed }) => [s.btn, { backgroundColor: pressed ? '#00000047' : '#00000099' }]} onPress={() => r.push("/settings")}>
+          <Ionicons name="settings-outline" size={28} color="white" />
         </Pressable>
       </View>
     </ImageBackground>
