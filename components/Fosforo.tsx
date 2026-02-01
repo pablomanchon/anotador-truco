@@ -73,6 +73,9 @@ export default function Fosforo({ onDrop }: Props) {
     top: y.value,
     // Gira levemente según desplazamiento horizontal (sin inclinar al inicio)
     transform: [{ rotate: `${(x.value - startX) / 20}deg` }],
+    padding: 5,
+    elevation:11,
+    zIndex:3
   }));
 
   return (
@@ -84,8 +87,9 @@ export default function Fosforo({ onDrop }: Props) {
           position: "absolute",
           left: boxLeft,
           top: boxTop,
-          backgroundColor:'transparent',
-          zIndex: 0,
+          backgroundColor: 'transparent',
+          zIndex:2,
+          elevation:11
         }}
       >
         <Image

@@ -1,6 +1,8 @@
+// app/index.tsx
 import bgWood from "@/assets/woodV.webp";
 import { DropZone } from "@/components/DropZone";
 import Fosforo from "@/components/Fosforo";
+import useSfx from "@/hooks/useSfx"; // 👈 expo-audio
 import { useMatchStore } from "@/store/useMatchStore";
 import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
@@ -13,7 +15,9 @@ type Rect = { x: number; y: number; width: number; height: number };
 
 export default function Home() {
   const r = useRouter();
-  const { a, b, goal, addStick, removeStick, reset, loadFromStorage } = useMatchStore();
+  const { a, b, goal, addStick, removeStick, reset, loadFromStorage, tapToAdd } = useMatchStore();
+
+  const { ready, playAdd, playRemove } = useSfx({ volume: 0.85 });
 
   useEffect(() => { loadFromStorage(); }, [loadFromStorage]);
 
@@ -28,21 +32,16 @@ export default function Home() {
           {
             text: "OK",
             onPress: () => {
-              // 🔹 Segundo alerta: confirmar reinicio
-              Alert.alert(
-                "¿Desea iniciar una nueva partida?",
-                "",
-                [
-                  { text: "Cancelar", style: "cancel" },
-                  { text: "Sí", style: "destructive", onPress: () => reset() },
-                ]
-              );
+              Alert.alert("¿Desea iniciar una nueva partida?", "", [
+                { text: "Cancelar", style: "cancel" },
+                { text: "Sí", style: "destructive", onPress: () => reset() },
+              ]);
             },
           },
         ]
       );
     }
-  }, [a, b, goal]);
+  }, [a, b, goal, reset]);
 
   // refs y rects absolutos (pantalla) para zonas
   const aRef = useRef<View>(null);
@@ -56,14 +55,23 @@ export default function Home() {
   };
 
   useEffect(() => {
-    // medir al montar y tras layout
     const t = setTimeout(measureZones, 0);
     return () => clearTimeout(t);
   });
 
   const handleDrop = (absX: number, absY: number) => {
-    if (isInside(dropA.current, absX, absY)) { addStick("a"); Haptics.selectionAsync(); return true; }
-    if (isInside(dropB.current, absX, absY)) { addStick("b"); Haptics.selectionAsync(); return true; }
+    if (isInside(dropA.current, absX, absY)) {
+      addStick("a");
+      Haptics.selectionAsync();
+      if (ready) playAdd();
+      return true;
+    }
+    if (isInside(dropB.current, absX, absY)) {
+      addStick("b");
+      Haptics.selectionAsync();
+      if (ready) playAdd();
+      return true;
+    }
     return false;
   };
 
@@ -77,7 +85,15 @@ export default function Home() {
           label="Nosotros"
           count={a}
           goal={goal}
-          onMinus={() => removeStick("a")}
+          onMinus={() => {
+            removeStick("a");
+            if (ready) playRemove();
+          }}
+          onDrop={() => {
+            addStick("a")
+            playAdd();
+          }}
+          tapToAdd={tapToAdd}
         />
 
         <DropZone
@@ -85,18 +101,31 @@ export default function Home() {
           label="Ellos"
           count={b}
           goal={goal}
-          onMinus={() => removeStick("b")}
+          onMinus={() => {
+            removeStick("b");
+            if (ready) playRemove();
+          }}
+          onDrop={() => {
+            addStick("b")
+            playAdd()
+          }}
+          tapToAdd={tapToAdd}
         />
       </View>
 
-      {/* Fósforo suelto de prueba */}
       <Fosforo onDrop={handleDrop} />
 
       <View style={s.bottom}>
-        <Pressable style={({ pressed }) => [s.btn, { backgroundColor: pressed ? '#00000047' : '#00000099' }]} onPress={() => confirmReset(reset)}>
+        <Pressable
+          style={({ pressed }) => [s.btn, { backgroundColor: pressed ? '#00000047' : '#00000099' }]}
+          onPress={() => confirmReset(reset)}
+        >
           <Ionicons name="refresh-outline" size={28} color="white" />
         </Pressable>
-        <Pressable style={({ pressed }) => [s.btn, { backgroundColor: pressed ? '#00000047' : '#00000099' }]} onPress={() => r.push("/settings")}>
+        <Pressable
+          style={({ pressed }) => [s.btn, { backgroundColor: pressed ? '#00000047' : '#00000099' }]}
+          onPress={() => r.push("/settings")}
+        >
           <Ionicons name="settings-outline" size={28} color="white" />
         </Pressable>
       </View>

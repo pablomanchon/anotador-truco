@@ -1,15 +1,19 @@
 // components/Square.tsx
 import React from "react";
-import { Image, StyleSheet, View, useWindowDimensions } from "react-native";
+import { Image, Pressable, StyleSheet, View } from "react-native";
 
 import SRC from "@/assets/images/fosforo.webp";
 
-export default function Square({ count }: { count: number }) {
-  const n = Math.min(Math.max(count, 0), 5);
-  const { width } = useWindowDimensions();
+type Props = {
+  count: number;
+  boxSize: number;
+  onMinus: () => void;
+};
 
-  // 🔹 cuadrado proporcional al ancho de pantalla
-  const BOX = width * 0.25;
+export default function Square({ count, boxSize, onMinus }: Props) {
+  const n = Math.min(Math.max(count, 0), 5);
+
+  const BOX = boxSize;
   const MARGIN = BOX * 0.02;
   const SIDE = BOX - MARGIN * 2;
 
@@ -17,13 +21,15 @@ export default function Square({ count }: { count: number }) {
   const MATCH_THICK = BOX * 0.35;
 
   return (
-    <View style={[styles.box, { width: BOX, height: BOX, }]}>
+    <Pressable
+      onPress={onMinus}
+      style={[styles.box, { width: BOX, height: BOX }]}
+    >
       {/* LADO IZQUIERDO */}
       {n >= 1 && (
-        <Image
-          source={SRC}
+        <View
           style={[
-            styles.match,
+            styles.matchWrapper,
             {
               width: MATCH_THICK,
               height: MATCH_LONG,
@@ -31,15 +37,16 @@ export default function Square({ count }: { count: number }) {
               top: MARGIN,
             },
           ]}
-        />
+        >
+          <Image source={SRC} style={styles.matchImage} />
+        </View>
       )}
 
       {/* LADO SUPERIOR */}
       {n >= 2 && (
-        <Image
-          source={SRC}
+        <View
           style={[
-            styles.match,
+            styles.matchWrapper,
             {
               width: MATCH_LONG,
               height: MATCH_THICK + BOX * 0.2,
@@ -48,15 +55,16 @@ export default function Square({ count }: { count: number }) {
               transform: [{ rotate: "90deg" }],
             },
           ]}
-        />
+        >
+          <Image source={SRC} style={styles.matchImage} />
+        </View>
       )}
 
       {/* LADO DERECHO */}
       {n >= 3 && (
-        <Image
-          source={SRC}
+        <View
           style={[
-            styles.match,
+            styles.matchWrapper,
             {
               width: MATCH_THICK,
               height: MATCH_LONG,
@@ -65,15 +73,16 @@ export default function Square({ count }: { count: number }) {
               transform: [{ rotate: "180deg" }],
             },
           ]}
-        />
+        >
+          <Image source={SRC} style={styles.matchImage} />
+        </View>
       )}
 
       {/* LADO INFERIOR */}
       {n >= 4 && (
-        <Image
-          source={SRC}
+        <View
           style={[
-            styles.match,
+            styles.matchWrapper,
             {
               width: MATCH_LONG,
               height: MATCH_THICK + BOX * 0.2,
@@ -82,15 +91,16 @@ export default function Square({ count }: { count: number }) {
               transform: [{ rotate: "270deg" }],
             },
           ]}
-        />
+        >
+          <Image source={SRC} style={styles.matchImage} />
+        </View>
       )}
 
       {/* DIAGONAL */}
       {n >= 5 && (
-        <Image
-          source={SRC}
+        <View
           style={[
-            styles.match,
+            styles.matchWrapper,
             {
               width: MATCH_LONG,
               height: MATCH_THICK + BOX * 0.2,
@@ -99,9 +109,11 @@ export default function Square({ count }: { count: number }) {
               transform: [{ rotate: "225deg" }],
             },
           ]}
-        />
+        >
+          <Image source={SRC} style={styles.matchImage} />
+        </View>
       )}
-    </View>
+    </Pressable>
   );
 }
 
@@ -110,8 +122,12 @@ const styles = StyleSheet.create({
     position: "relative",
     alignSelf: "center",
   },
-  match: {
+  matchWrapper: {
     position: "absolute",
+  },
+  matchImage: {
+    width: "100%",
+    height: "100%",
     resizeMode: "contain",
   },
 });
