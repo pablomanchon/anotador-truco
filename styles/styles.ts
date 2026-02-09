@@ -39,9 +39,9 @@ export const s = StyleSheet.create({
   poolStick: { width: 6, height: 28, backgroundColor: "#94a3b8", borderRadius: 2, opacity: 0.4 },
   dragWrap: { position: "absolute", left: 12, top: 16 }, // posición inicial del drag
   dragStick: { width: 8, height: 34, backgroundColor: "#f59e0b", borderRadius: 2 },
-
-  bottom: { marginTop: "auto", flexDirection: "row", gap: 8,zIndex:0 },
-  btn: { flex: 1, paddingVertical: 14, borderRadius: 12, alignItems: "center" },
+  btn: { width: 50,height:50, alignItems: "center",justifyContent: "center", borderRadius: 8, top:15 },
+  configBtn: { position: "absolute", right: 12, },
+  refreshBtn: { position: "absolute", left: 12, },
   btnText: { color: "white", fontWeight: "700" },
   square: {
     position: 'relative',

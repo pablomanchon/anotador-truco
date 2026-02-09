@@ -48,17 +48,7 @@ export const DropZone = forwardRef<View, Props>(function DZ(
           style={{ flex: 1, position: "relative" }}
           onLayout={handleCenterLayout}
         >
-          <View
-            style={{
-              position: "absolute",
-              width: "100%",
-              backgroundColor: "white",
-              height: 3,
-              borderRadius: 10,
-              top: "50%",
-            }}
-          />
-
+         
           {/* 👉 Todos los fósforos RESTAN */}
           <SquareColumn
             count={count}

@@ -21,7 +21,7 @@ export const useMatchStore = create<State>((set, get) => ({
   a: 0,
   b: 0,
   goal: 30,
-  tapToAdd: false,
+  tapToAdd: true,
 
   addStick: (team, n = 1) => {
     const next = Math.max(0, Math.min(999, get()[team] + n));

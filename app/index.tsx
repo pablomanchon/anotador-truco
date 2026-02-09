@@ -115,20 +115,18 @@ export default function Home() {
 
       <Fosforo onDrop={handleDrop} />
 
-      <View style={s.bottom}>
-        <Pressable
-          style={({ pressed }) => [s.btn, { backgroundColor: pressed ? '#00000047' : '#00000099' }]}
-          onPress={() => confirmReset(reset)}
-        >
-          <Ionicons name="refresh-outline" size={28} color="white" />
-        </Pressable>
-        <Pressable
-          style={({ pressed }) => [s.btn, { backgroundColor: pressed ? '#00000047' : '#00000099' }]}
-          onPress={() => r.push("/settings")}
-        >
-          <Ionicons name="settings-outline" size={28} color="white" />
-        </Pressable>
-      </View>
+      <Pressable
+        style={({ pressed }) => [s.btn, s.refreshBtn, { backgroundColor: pressed ? '#00000047' : '#00000099' }]}
+        onPress={() => confirmReset(reset)}
+      >
+        <Ionicons name="refresh-outline" size={28} color="white" />
+      </Pressable>
+      <Pressable
+        style={({ pressed }) => [s.btn, s.configBtn, { backgroundColor: pressed ? '#00000047' : '#00000099' }]}
+        onPress={() => r.push("/settings")}
+      >
+        <Ionicons name="settings-outline" size={28} color="white" />
+      </Pressable>
     </ImageBackground>
   );
 }

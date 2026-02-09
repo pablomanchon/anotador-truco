@@ -1,16 +1,15 @@
-// components/Square.tsx
+import SRC from "@/assets/images/fosforo.webp";
 import React from "react";
 import { Image, Pressable, StyleSheet, View } from "react-native";
-
-import SRC from "@/assets/images/fosforo.webp";
 
 type Props = {
   count: number;
   boxSize: number;
   onMinus: () => void;
+  disabled?: boolean;
 };
 
-export default function Square({ count, boxSize, onMinus }: Props) {
+export default function Square({ count, boxSize, onMinus, disabled }: Props) {
   const n = Math.min(Math.max(count, 0), 5);
 
   const BOX = boxSize;
@@ -20,100 +19,87 @@ export default function Square({ count, boxSize, onMinus }: Props) {
   const MATCH_LONG = SIDE;
   const MATCH_THICK = BOX * 0.35;
 
-  return (
+  const isDisabled = disabled ?? n === 0;
+
+  const hitSlop = Math.max(6, BOX * 0.04);
+
+  const MatchPressable = ({ style }: { style: any }) => (
     <Pressable
       onPress={onMinus}
-      style={[styles.box, { width: BOX, height: BOX }]}
+      disabled={isDisabled}
+      hitSlop={hitSlop}
+      style={[styles.matchWrapper, style]}
     >
+      <Image source={SRC} style={styles.matchImage} />
+    </Pressable>
+  );
+
+  return (
+    <View style={[styles.box, { width: BOX, height: BOX, opacity: isDisabled ? 0.25 : 1 }]}>
       {/* LADO IZQUIERDO */}
       {n >= 1 && (
-        <View
-          style={[
-            styles.matchWrapper,
-            {
-              width: MATCH_THICK,
-              height: MATCH_LONG,
-              left: MARGIN,
-              top: MARGIN,
-            },
-          ]}
-        >
-          <Image source={SRC} style={styles.matchImage} />
-        </View>
+        <MatchPressable
+          style={{
+            width: MATCH_THICK,
+            height: MATCH_LONG,
+            left: MARGIN,
+            top: MARGIN,
+          }}
+        />
       )}
 
       {/* LADO SUPERIOR */}
       {n >= 2 && (
-        <View
-          style={[
-            styles.matchWrapper,
-            {
-              width: MATCH_LONG,
-              height: MATCH_THICK + BOX * 0.2,
-              left: MARGIN,
-              top: MARGIN - BOX * 0.15,
-              transform: [{ rotate: "90deg" }],
-            },
-          ]}
-        >
-          <Image source={SRC} style={styles.matchImage} />
-        </View>
+        <MatchPressable
+          style={{
+            width: MATCH_LONG,
+            height: MATCH_THICK + BOX * 0.2,
+            left: MARGIN,
+            top: MARGIN - BOX * 0.15,
+            transform: [{ rotate: "90deg" }],
+          }}
+        />
       )}
 
       {/* LADO DERECHO */}
       {n >= 3 && (
-        <View
-          style={[
-            styles.matchWrapper,
-            {
-              width: MATCH_THICK,
-              height: MATCH_LONG,
-              left: MARGIN + SIDE - MATCH_THICK,
-              top: MARGIN,
-              transform: [{ rotate: "180deg" }],
-            },
-          ]}
-        >
-          <Image source={SRC} style={styles.matchImage} />
-        </View>
+        <MatchPressable
+          style={{
+            width: MATCH_THICK,
+            height: MATCH_LONG,
+            left: MARGIN + SIDE - MATCH_THICK,
+            top: MARGIN,
+            transform: [{ rotate: "180deg" }],
+          }}
+        />
       )}
 
       {/* LADO INFERIOR */}
       {n >= 4 && (
-        <View
-          style={[
-            styles.matchWrapper,
-            {
-              width: MATCH_LONG,
-              height: MATCH_THICK + BOX * 0.2,
-              left: MARGIN,
-              top: MARGIN + SIDE - MATCH_THICK - BOX * 0.06,
-              transform: [{ rotate: "270deg" }],
-            },
-          ]}
-        >
-          <Image source={SRC} style={styles.matchImage} />
-        </View>
+        <MatchPressable
+          style={{
+            width: MATCH_LONG,
+            height: MATCH_THICK + BOX * 0.2,
+            left: MARGIN,
+            top: MARGIN + SIDE - MATCH_THICK - BOX * 0.06,
+            transform: [{ rotate: "270deg" }],
+          }}
+        />
       )}
 
       {/* DIAGONAL */}
       {n >= 5 && (
-        <View
-          style={[
-            styles.matchWrapper,
-            {
-              width: MATCH_LONG,
-              height: MATCH_THICK + BOX * 0.2,
-              left: MARGIN,
-              top: MARGIN + SIDE * 0.18,
-              transform: [{ rotate: "225deg" }],
-            },
-          ]}
-        >
-          <Image source={SRC} style={styles.matchImage} />
-        </View>
+        <MatchPressable
+          style={{
+            width: MATCH_LONG,
+            height: MATCH_THICK + BOX * 0.2,
+            left: MARGIN,
+            top: MARGIN + SIDE * 0.18,
+            transform: [{ rotate: "225deg" }],
+          }}
+        />
       )}
-    </Pressable>
+    </View>
   );
 }
 
