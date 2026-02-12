@@ -1,5 +1,6 @@
 // app/index.tsx
-import bgWood from "@/assets/woodV.webp";
+import bgWood from "@/assets/woodV.jpg";
+import AdsBanner from "@/components/Banner";
 import { DropZone } from "@/components/DropZone";
 import Fosforo from "@/components/Fosforo";
 import useSfx from "@/hooks/useSfx"; // 👈 expo-audio
@@ -127,6 +128,7 @@ export default function Home() {
       >
         <Ionicons name="settings-outline" size={28} color="white" />
       </Pressable>
+      <AdsBanner />
     </ImageBackground>
   );
 }

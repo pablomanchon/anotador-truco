@@ -15,7 +15,7 @@ export default function RootLayout() {
   }, []);
 
   useKeepAwake();
-
+  
   return (
     <GestureHandlerRootView style={{ flex: 1, backgroundColor: "#0f172a" }}>
       {/* Oculta barra de estado (arriba) */}

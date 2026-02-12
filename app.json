@@ -2,7 +2,7 @@
   "expo": {
     "name": "Anotador de Truco",
     "slug": "truco-anotador",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "orientation": "portrait",
     "scheme": "trucoanotador",
     "userInterfaceStyle": "automatic",
@@ -35,17 +35,22 @@
     "plugins": [
       "expo-router",
       "expo-audio",
-      "expo-asset"
+      "expo-asset",
+      [
+        "react-native-google-mobile-ads",
+        {
+          "androidAppId": "ca-app-pub-6542685410768650~2092343964"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
     },
-
-    "plugins": ["expo-router"],
-    "experiments": { "typedRoutes": true },
     "extra": {
       "router": {},
-      "eas": { "projectId": "e0ac6964-fa29-4233-b76e-2c9aee9aa359" }
+      "eas": {
+        "projectId": "e0ac6964-fa29-4233-b76e-2c9aee9aa359"
+      }
     }
   }
 }
